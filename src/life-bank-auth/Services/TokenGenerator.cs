@@ -2,31 +2,51 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using LifeBankAuth.Models;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using TokenConstants = LifeBankAuth.Constants.TokenConstants;
+
 
 
 namespace LifeBankAuth.Services
 {
-    public class TokenGenerator
+  public class TokenGenerator
+  {
+    /// <summary>
+    /// This function is to Generate Token 
+    /// </summary>
+    /// <returns>A string, the token JWT</returns>
+    public static string Generate(Client client)
     {
-        /// <summary>
-        /// This function is to Generate Token 
-        /// </summary>
-        /// <returns>A string, the token JWT</returns>
-        public string Generate(Client client)
-        {
-            throw new NotImplementedException();
-        }
+      var tokenHandler = new JwtSecurityTokenHandler();
 
-        /// <summary>
-        /// Function that adds the claims to the token
-        /// </summary>
-        /// <param name="client"> A client object value</param>
-        /// <returns>Returns an object of type ClaimsIdentity</returns>
-        private ClaimsIdentity AddClaims(Client client)
-        {
-            throw new NotImplementedException();
-        }
+      var tokenDescriptor = new SecurityTokenDescriptor()
+      {
+        Subject = AddClaims(client),
+        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(TokenConstants.Secret)),
+          SecurityAlgorithms.HmacSha256Signature
+          ),
+        Expires = DateTime.Now.AddDays(TokenConstants.Expire)
+      };
+
+      var token = tokenHandler.CreateToken(tokenDescriptor);
+
+      return tokenHandler.WriteToken(token);
     }
+
+    /// <summary>
+    /// Function that adds the claims to the token
+    /// </summary>
+    /// <param name="client"> A client object value</param>
+    /// <returns>Returns an object of type ClaimsIdentity</returns>
+    private static ClaimsIdentity AddClaims(Client client)
+    {
+      var claims = new ClaimsIdentity();
+
+      var clientType = client.IsCompany ? ClientTypeEnum.PessoaJuridica : ClientTypeEnum.PessoaFisica;
+
+      claims.AddClaim(new Claim(ClaimTypes.Role, clientType.ToString()));
+
+      return claims;
+    }
+  }
 }
