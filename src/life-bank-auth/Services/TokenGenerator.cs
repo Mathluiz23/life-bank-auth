@@ -3,7 +3,8 @@ using System.Security.Claims;
 using System.Text;
 using LifeBankAuth.Models;
 using Microsoft.IdentityModel.Tokens;
-using TokenConstants = LifeBankAuth.Constants.TokenConstants;
+using TokenConstants = LifeBankAuth.Constants.TokenConstant;
+
 
 
 
