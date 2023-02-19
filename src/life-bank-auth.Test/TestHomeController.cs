@@ -18,7 +18,7 @@ public class TestHomeController : IClassFixture<WebApplicationFactory<Program>>
   {
     var client = _factory.CreateClient();
 
-    var response = await client.GetAsync("home/MessageForEveryone");
+    var response = await client.GetAsync("/home/MessageForEveryone");
 
     response.StatusCode.Should().Be(HttpStatusCode.OK);
   }

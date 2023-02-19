@@ -13,8 +13,8 @@ public class HomeController : ControllerBase
   /// <returns>Returns a message</returns>
   [HttpGet("MessageForEveryone")]
   [AllowAnonymous]
-  public static ActionResult<string> CreateAccountUntilFriday()
+  public ActionResult<string> CreateAccountUntilFriday()
   {
-    return "Crie sua conta na Like Bank até sexta-feira!";
+    return Ok("Crie sua conta na Like Bank até sexta-feira!");
   }
 }
