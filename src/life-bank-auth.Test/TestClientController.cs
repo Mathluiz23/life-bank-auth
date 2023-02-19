@@ -76,7 +76,20 @@ public class TestClientController2 : IClassFixture<WebApplicationFactory<Program
   [InlineData("Helena", false, CurrencyEnum.Peso)]
   public async Task TestNewPromoAlertSuccess(string name, bool isCompany, CurrencyEnum currency)
   {
-    throw new NotImplementedException();
+    var client = new Client
+    {
+      Name = name,
+      IsCompany = isCompany,
+      Currency = currency
+    };
+
+    var httpClient = _factory.CreateClient();
+    var token = TokenGenerator.Generate(client);
+    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+    var response = await httpClient.GetAsync($"{controllerName}/NewPromoAlert");
+
+    response.StatusCode.Should().Be(HttpStatusCode.OK);
   }
 
   [Trait("Category", "4 - Criar Endpoint com Autorização baseada em Claims")]
@@ -87,6 +100,19 @@ public class TestClientController2 : IClassFixture<WebApplicationFactory<Program
   [InlineData("Paula", true, CurrencyEnum.Dolar)]
   public async Task TestNewPromoAlertFail(string name, bool isCompany, CurrencyEnum currency)
   {
-    throw new NotImplementedException();
+    var client = new Client
+    {
+      Name = name,
+      IsCompany = isCompany,
+      Currency = currency
+    };
+
+    var httpClient = _factory.CreateClient();
+    var token = TokenGenerator.Generate(client);
+    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+    var response = await httpClient.GetAsync($"{controllerName}/NewPromoAlert");
+
+    response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
   }
 }
