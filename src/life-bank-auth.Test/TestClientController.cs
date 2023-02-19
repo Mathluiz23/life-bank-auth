@@ -87,7 +87,7 @@ public class TestClientController2 : IClassFixture<WebApplicationFactory<Program
     var token = TokenGenerator.Generate(client);
     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-    var response = await httpClient.GetAsync($"{controllerName}/NewPromoAlert");
+    var response = await httpClient.GetAsync("Client/NewPromoAlert");
 
     response.StatusCode.Should().Be(HttpStatusCode.OK);
   }
@@ -111,7 +111,7 @@ public class TestClientController2 : IClassFixture<WebApplicationFactory<Program
     var token = TokenGenerator.Generate(client);
     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-    var response = await httpClient.GetAsync($"{controllerName}/NewPromoAlert");
+    var response = await httpClient.GetAsync("Client/NewPromoAlert");
 
     response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
   }

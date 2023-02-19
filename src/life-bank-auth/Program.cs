@@ -32,8 +32,8 @@ builder.Services.AddAuthorization(options =>
 {
   options.AddPolicy("NewPromo", policy =>
   {
-    policy.RequireClaim("Person", ClientTypeEnum.PessoaFisica.ToString());
-    policy.RequireClaim("Currency", new string[] { CurrencyEnum.Real.ToString(), CurrencyEnum.Peso.ToString() });
+    policy.RequireClaim("ClientType", ClientTypeEnum.PessoaFisica.ToString());
+    policy.RequireClaim("Currency", "Real", "Peso");
   }
   );
 
