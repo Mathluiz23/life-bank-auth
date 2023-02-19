@@ -2,6 +2,7 @@ using System.Text;
 using LifeBankAuth.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using LifeBankAuth.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,11 +23,21 @@ builder.Services.AddAuthentication(options =>
     ValidateIssuer = false,
     ValidateAudience = false,
     ValidateIssuerSigningKey = true,
-    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("Coloque o seu segredo JWT aqui!"))
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(TokenConstant.Secret))
   };
 });
 
 // Adicionar POLICY CLAIMS BASED aqui!
+builder.Services.AddAuthorization(options =>
+{
+  options.AddPolicy("NewPromo", policy =>
+  {
+    policy.RequireClaim("Person", ClientTypeEnum.PessoaFisica.ToString());
+    policy.RequireClaim("Currency", new string[] { CurrencyEnum.Real.ToString(), CurrencyEnum.Peso.ToString() });
+  }
+  );
+
+});
 
 var app = builder.Build();
 

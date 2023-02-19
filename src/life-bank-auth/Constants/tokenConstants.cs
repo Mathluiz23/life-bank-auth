@@ -2,8 +2,8 @@ namespace LifeBankAuth.Constants
 {
   public static class TokenConstant
   {
-    public const string Secret = "This is a secret phrase";
+    public const string Secret = "ThisIsSecretPhrase";
 
-    public const int Expire = 5;
+    public const int Expire = 1;
   }
 }

@@ -1,11 +1,12 @@
 using LifeBankAuth.Models;
 using LifeBankAuth.Services;
 using Microsoft.AspNetCore.Mvc.Testing;
+using System.Net;
 using System.Net.Http.Headers;
 
 namespace LifeBankAuth.Test;
 
-public class TestClientController : LifeBankConfiguration, IClassFixture<WebApplicationFactory<Program>>
+public class TestClientController : IClassFixture<WebApplicationFactory<Program>>
 {
   private readonly WebApplicationFactory<Program> _factory;
   private const string controllerName = "client";
@@ -24,7 +25,20 @@ public class TestClientController : LifeBankConfiguration, IClassFixture<WebAppl
   [InlineData("Trybe", true, CurrencyEnum.Real)]
   public async Task TestPlataformWelcomeSuccess(string name, bool isCompany, CurrencyEnum currency)
   {
-    throw new NotImplementedException();
+    var client = new Client
+    {
+      Name = name,
+      IsCompany = isCompany,
+      Currency = currency
+    };
+
+    var httpClient = _factory.CreateClient();
+    var token = TokenGenerator.Generate(client);
+    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+    var response = await httpClient.GetAsync($"{controllerName}/PlataformWelcome");
+
+    response.StatusCode.Should().Be(HttpStatusCode.OK);
   }
 
   [Trait("Category", "3 - Criar Endpoint Autorização")]
@@ -35,10 +49,16 @@ public class TestClientController : LifeBankConfiguration, IClassFixture<WebAppl
 
   public async Task TestPlataformWelcomeFail(string invalidToken)
   {
-    throw new NotImplementedException();
+    var httpClient = _factory.CreateClient();
+    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", invalidToken);
+
+    var response = await httpClient.GetAsync($"{controllerName}/PlataformWelcome");
+
+    response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+
   }
 }
-public class TestClientController2 : LifeBankConfiguration, IClassFixture<WebApplicationFactory<Program>>
+public class TestClientController2 : IClassFixture<WebApplicationFactory<Program>>
 {
   private readonly WebApplicationFactory<Program> _factory;
   private const string controllerName = "client";
