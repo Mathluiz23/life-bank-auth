@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using LifeBankAuth.Models;
 using Microsoft.IdentityModel.Tokens;
-using TokenConstants = LifeBankAuth.Constants.TokenConstant;
+
 
 
 
@@ -23,10 +23,10 @@ namespace LifeBankAuth.Services
       var tokenDescriptor = new SecurityTokenDescriptor()
       {
         Subject = AddClaims(client),
-        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(TokenConstants.Secret)),
+        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(TokenConstant.Secret)),
           SecurityAlgorithms.HmacSha256Signature
           ),
-        Expires = DateTime.Now.AddDays(TokenConstants.Expire)
+        Expires = DateTime.Now.AddDays(1)
       };
 
       var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -43,10 +43,15 @@ namespace LifeBankAuth.Services
     {
       var claims = new ClaimsIdentity();
 
-      var clientType = client.IsCompany ? ClientTypeEnum.PessoaJuridica : ClientTypeEnum.PessoaFisica;
+      var claimsValues = new List<Claim> {
+                new Claim(ClaimTypes.Name, client.Name),
+                new Claim("Currency", client.Currency.ToString()),
+                client.IsCompany ? new Claim("ClientType", ClientTypeEnum.PessoaJuridica.ToString())
+                :
+                new Claim("ClientType", ClientTypeEnum.PessoaFisica.ToString())
+            };
 
-      claims.AddClaim(new Claim(ClaimTypes.Role, clientType.ToString()));
-
+      claims.AddClaims(claimsValues);
       return claims;
     }
   }

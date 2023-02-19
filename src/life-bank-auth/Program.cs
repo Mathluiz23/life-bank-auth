@@ -2,7 +2,6 @@ using System.Text;
 using LifeBankAuth.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using LifeBankAuth.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
