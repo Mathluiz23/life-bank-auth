@@ -55,7 +55,7 @@ app.UseRouting();
 app.UseAuthentication();
 
 // Adicionar uso de autorização
-app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseCors(c => c.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 

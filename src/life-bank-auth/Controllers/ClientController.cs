@@ -11,6 +11,8 @@ public class ClientController : ControllerBase
   /// Message function that does needs authorization
   /// </summary>
   /// <returns>Returns a message</returns>
+  [HttpGet("PlataformWelcome")]
+  [Authorize]
   public ActionResult<string> PlataformWelcome()
   {
     return Ok("Que ótimo ter você aqui novamente, sinta-se a vontade!");
