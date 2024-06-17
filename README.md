@@ -1,4 +1,4 @@
-# Boas-vindas ao repositório do Projeto `Life Bank Auth`
+# Projeto `Life Bank Auth`
 
 # Orientações
 
@@ -7,9 +7,9 @@
 
 1. Clone o repositório
 
-- Use o comando: `git clone git@github.com:tryber/acc-csharp-0x-project/project-life-bank-auth.git`.
+- Use o comando: `git clone git@github.com:Mathluiz23/life-bank-auth.git`.
 - Entre na pasta do repositório que você acabou de clonar:
-  - `cd acc-csharp-0x-project/project-life-bank-auth`
+  - `cd git@github.com:Mathluiz23/life-bank-auth.git`
 
 2. Instale as dependências
 
