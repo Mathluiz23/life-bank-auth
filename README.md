@@ -9,7 +9,7 @@
 
 - Use o comando: `git clone git@github.com:Mathluiz23/life-bank-auth.git`.
 - Entre na pasta do repositório que você acabou de clonar:
-  - `cd git@github.com:Mathluiz23/life-bank-auth.git`
+  - `cd life-bank-auth`
 
 2. Instale as dependências
 
